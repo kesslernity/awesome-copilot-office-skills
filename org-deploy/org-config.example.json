@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "accentColor": "#2E86DE",
+  "developer": {
+    "name": "Your organisation name",
+    "websiteUrl": "https://intranet.example.com",
+    "privacyUrl": "https://intranet.example.com/privacy",
+    "termsOfUseUrl": "https://intranet.example.com/terms"
+  }
+}

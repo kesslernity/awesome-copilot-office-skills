@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.30/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.30",
+  "version": "1.0.0",
+  "id": "{{APP_ID}}",
+  "developer": {
+    "name": "{{DEVELOPER_NAME}}",
+    "websiteUrl": "{{DEVELOPER_WEBSITE_URL}}",
+    "privacyUrl": "{{DEVELOPER_PRIVACY_URL}}",
+    "termsOfUseUrl": "{{DEVELOPER_TERMS_URL}}"
+  },
+  "name": {
+    "short": "Office Skills Pack",
+    "full": "Office skills pack (awesome-copilot-office-skills)"
+  },
+  "description": {
+    "short": "Custom skills for Copilot in Excel and PowerPoint.",
+    "full": "Custom skills for Copilot in Excel and Copilot in PowerPoint. Each skill drafts and stops for human approval before it changes a workbook or a presentation."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "{{ACCENT_COLOR}}",
+  "agentSkills": [
+    { "folder": "./skills/outline-first-deck" },
+    { "folder": "./skills/executive-summary-slide" },
+    { "folder": "./skills/action-title-rewrite" },
+    { "folder": "./skills/numbers-and-claims-check" },
+    { "folder": "./skills/brand-rules-check" },
+    { "folder": "./skills/decision-slide" },
+    { "folder": "./skills/accessibility-pass" },
+    { "folder": "./skills/steering-committee-status-deck" }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "version": "2.0.0",
+  "skills": [
+    {
+      "name": "outline-first-deck",
+      "title": "Outline-first deck",
+      "short": "Outline-first deck builder",
+      "summary": "Drafts a sourced slide outline, waits for approval, then builds the deck.",
+      "complements": "Create a presentation from a file (Narrative builder): adds a human approval gate and per-slide sources",
+      "triggers": [
+        "Draft a 10-slide deck from the attached project brief",
+        "Turn these notes into a presentation for the leadership team",
+        "Start a deck on our Q4 hiring plan, outline first"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "executive-summary-slide",
+      "title": "Executive summary slide",
+      "short": "Executive summary slide",
+      "summary": "Adds one approved summary slide of three to five conclusions, each traced to its source slide.",
+      "complements": "Review this presentation: produces the summary slide itself, with traceability",
+      "triggers": [
+        "Add an executive summary slide to this deck",
+        "Give me a one-slide recap for the board",
+        "Write a TL;DR slide after the title"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "action-title-rewrite",
+      "title": "Action title rewrite",
+      "short": "Action title rewrite",
+      "summary": "Proposes full-sentence action titles and a storyline check, applied only after approval.",
+      "complements": "Rewrite: works on the title layer and the storyline, not body text",
+      "triggers": [
+        "Sharpen the slide titles so the deck tells a story",
+        "Apply one message per slide to these titles",
+        "Read me the storyline from the titles only"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "numbers-and-claims-check",
+      "title": "Numbers and claims check",
+      "short": "Numbers and claims check",
+      "summary": "Registers every figure and claim with its source and flags unsourced or inconsistent items. Never edits a figure.",
+      "complements": "Review this presentation and Prepare for Questions: adds a traceability audit",
+      "triggers": [
+        "Fact-check the numbers in this deck before Monday",
+        "Which claims in this presentation have no source?",
+        "Check these figures against the attached report"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "brand-rules-check",
+      "title": "Brand rules check",
+      "short": "Brand rules check",
+      "summary": "Checks each slide against a written brand rules file and reports PASS, FIX PROPOSED or MANUAL CHECK.",
+      "complements": "Brand Kit: an auditable written report that also works where Brand Kit is not set up",
+      "triggers": [
+        "Is this deck on brand?",
+        "Check these slides against our brand guidelines",
+        "Find anything off-template before this goes to the client"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "decision-slide",
+      "title": "Decision slide",
+      "short": "Decision slide",
+      "summary": "Builds a DRAFT options, criteria and recommendation slide with a named decision owner and a blank outcome.",
+      "complements": "Prepare for Questions: turns the debate into an explicit decision request",
+      "triggers": [
+        "Make a decision slide for the vendor choice",
+        "I need the steering committee to choose between these three options",
+        "Add a recommendation slide with the ask"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "accessibility-pass",
+      "title": "Accessibility pass",
+      "short": "Accessibility pass",
+      "summary": "Finds accessibility issues, drafts alt text and fixes, and applies only what the owner approves.",
+      "complements": "The application's accessibility checker: adds drafted alt text, jargon and colour-only checks",
+      "triggers": [
+        "Make this deck accessible",
+        "Add alt text to every image",
+        "Check this presentation for screen reader users"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "steering-committee-status-deck",
+      "title": "Steering committee status deck",
+      "short": "Steering committee status",
+      "summary": "Builds a DRAFT five to seven slide status pack with proposed RAG statuses the user confirms.",
+      "complements": "None directly: assembles a governed status pack from existing reports",
+      "triggers": [
+        "Build this month's steering committee deck from the status report",
+        "Turn the RAID log and plan into board slides",
+        "Make the programme update pack for Thursday"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "workbook-structure-audit",
+      "surface": "excel",
+      "title": "Workbook structure audit",
+      "short": "Workbook structure audit",
+      "summary": "Maps every sheet including hidden ones, named ranges, external links, filters and protection. Changes nothing.",
+      "complements": "Complements the built-in analysis skills: describes the container rather than the calculations",
+      "triggers": [
+        "What is actually in this workbook?",
+        "I inherited this file, map it for me",
+        "Are there hidden sheets or external links in here?"
+      ]
+    },
+    {
+      "name": "formula-risk-review",
+      "surface": "excel",
+      "title": "Formula risk review",
+      "short": "Formula risk review",
+      "summary": "Finds the formula faults that return a plausible wrong number instead of an error. Edits no formula.",
+      "complements": "Complements error checking: looks for faults that never raise an error",
+      "triggers": [
+        "Review the formulas in this model before I send it",
+        "Are there any hardcoded numbers inside these formulas?",
+        "Check the sum ranges cover the whole block"
+      ]
+    },
+    {
+      "name": "lookup-integrity-check",
+      "surface": "excel",
+      "title": "Lookup integrity check",
+      "short": "Lookup integrity check",
+      "summary": "Checks every lookup for approximate match, duplicate keys, unmatched keys and type mismatches. Changes nothing.",
+      "complements": "Complements clean-data: examines the joins rather than the values",
+      "triggers": [
+        "Why do these two sheets disagree?",
+        "Check my lookups for duplicate keys",
+        "Which keys are missing from the mapping table?"
+      ]
+    },
+    {
+      "name": "data-quality-sweep",
+      "surface": "excel",
+      "title": "Data quality sweep",
+      "short": "Data quality sweep",
+      "summary": "Profiles a table and reports mixed types, text numbers, duplicates, category variants and blanks. Corrects nothing.",
+      "complements": "Complements clean-data: reports and quantifies rather than cleaning",
+      "triggers": [
+        "Check the quality of this dataset before I pivot it",
+        "Why is my pivot splitting the same category in two?",
+        "Profile these columns and tell me what is wrong"
+      ]
+    },
+    {
+      "name": "reconciliation-check",
+      "surface": "excel",
+      "title": "Reconciliation check",
+      "short": "Reconciliation check",
+      "summary": "Re-adds every stated total from its components and reports each line that does not tie, with both values. Never edits a number.",
+      "complements": "Complements the built-in analysis skills: proves the workbook agrees with itself",
+      "triggers": [
+        "Does this pack tie out?",
+        "Re-add these totals and show me what breaks",
+        "Check the summary agrees with the detail sheets"
+      ]
+    },
+    {
+      "name": "units-and-rounding-check",
+      "surface": "excel",
+      "title": "Units and rounding check",
+      "short": "Units and rounding check",
+      "summary": "Finds thousands mixed with millions, multiple currencies summed together and display rounding that hides a real break.",
+      "complements": "Complements number formatting: reads units as meaning, not as formatting",
+      "triggers": [
+        "Why is this total one out?",
+        "Check the units are consistent across these sheets",
+        "Are we mixing currencies anywhere in this model?"
+      ]
+    },
+    {
+      "name": "assumptions-register",
+      "surface": "excel",
+      "title": "Assumptions register",
+      "short": "Assumptions register",
+      "summary": "Lists every input with its cell, value, unit, period and stated source, including constants buried inside formulas.",
+      "complements": "Complements a documentation sheet: built from the model rather than maintained beside it",
+      "triggers": [
+        "What does this model assume?",
+        "Build me an assumptions list from this workbook",
+        "Find the rates hardcoded inside the formulas"
+      ]
+    },
+    {
+      "name": "model-map",
+      "surface": "excel",
+      "title": "Model map",
+      "short": "Model map",
+      "summary": "Traces the calculation chain behind one output cell back to its inputs, and flags typed overrides in the middle.",
+      "complements": "Complements trace precedents: walks the whole chain and names what breaks it",
+      "triggers": [
+        "How is this number calculated?",
+        "Trace this total back to its inputs",
+        "What would change if I moved this assumption?"
+      ]
+    },
+    {
+      "name": "variance-explainer",
+      "surface": "excel",
+      "title": "Variance explainer",
+      "short": "Variance explainer",
+      "summary": "Splits a movement into the drivers the data supports and reports the remainder as unexplained. Invents no driver.",
+      "complements": "Complements the built-in analysis skills: refuses to force the bridge to tie",
+      "triggers": [
+        "Why did this move between the two periods?",
+        "Bridge plan to actual for me",
+        "Explain this variance and show what is unexplained"
+      ]
+    },
+    {
+      "name": "chart-intent-check",
+      "surface": "excel",
+      "title": "Chart intent check",
+      "short": "Chart intent check",
+      "summary": "Checks each chart against what its title claims: truncated axes, inconsistent scales, dual axes and unexplained colour.",
+      "complements": "Complements chart-design: reviews what a reader could wrongly conclude",
+      "triggers": [
+        "Check these charts before they go in the pack",
+        "Is this axis misleading?",
+        "Are these two charts comparable?"
+      ]
+    },
+    {
+      "name": "scenario-skeleton",
+      "surface": "excel",
+      "title": "Scenario skeleton",
+      "short": "Scenario skeleton",
+      "summary": "Builds a base, downside and upside scaffold wired to a case switch, and leaves every scenario value blank.",
+      "complements": "Complements what-if analysis: builds the frame and refuses to invent the cases",
+      "triggers": [
+        "Add scenarios to this model",
+        "Set up a downside and upside case",
+        "Wire these inputs to a scenario switch"
+      ]
+    },
+    {
+      "name": "workbook-handover-note",
+      "surface": "excel",
+      "title": "Workbook handover note",
+      "short": "Workbook handover note",
+      "summary": "Drafts the read me the file never had, with UNKNOWN left visible wherever the workbook does not say.",
+      "complements": "Complements a documentation sheet: records what the file evidences and marks the gaps",
+      "triggers": [
+        "Write a handover note for this model",
+        "I am leaving, document this workbook",
+        "What would someone need to know to pick this up?"
+      ]
+    },
+    {
+      "name": "speaker-notes-builder",
+      "surface": "powerpoint",
+      "title": "Speaker notes builder",
+      "short": "Speaker notes builder",
+      "summary": "Drafts a talk track per slide, marks where a note would need a fact the deck lacks, and flags notes that contradict their slide.",
+      "complements": "Complements Prepare for Questions: writes the notes layer and refuses to invent facts",
+      "triggers": [
+        "Write speaker notes for this deck",
+        "Give me a talk track for a 20 minute slot",
+        "Do my existing notes contradict the slides?"
+      ]
+    },
+    {
+      "name": "deck-trim-proposal",
+      "surface": "powerpoint",
+      "title": "Deck trim proposal",
+      "short": "Deck trim proposal",
+      "summary": "Proposes what to cut, merge or move so a deck fits its slot, naming what is lost in each case. Deletes nothing.",
+      "complements": "Complements Review this presentation: proposes against the argument, not against taste",
+      "triggers": [
+        "This deck is too long, what can go?",
+        "Cut this to 15 slides",
+        "Which slides repeat each other?"
+      ]
+    },
+    {
+      "name": "deck-consistency-sweep",
+      "surface": "powerpoint",
+      "title": "Deck consistency sweep",
+      "short": "Deck consistency sweep",
+      "summary": "Finds terms used two ways, unexpanded acronyms, mixed date and number formats and renamed products across the whole deck.",
+      "complements": "Complements Rewrite: works across the deck where a slide by slide read cannot",
+      "triggers": [
+        "Proofread this deck for consistency",
+        "Is our product named the same way throughout?",
+        "Which acronyms are never expanded?"
+      ]
+    },
+    {
+      "name": "appendix-split",
+      "surface": "powerpoint",
+      "title": "Appendix split",
+      "short": "Appendix split",
+      "summary": "Separates the presented argument from its supporting detail, leaving a pointer on every slide that lost support.",
+      "complements": "Complements deck-trim-proposal: relocates rather than cuts",
+      "triggers": [
+        "Move the detail to an appendix",
+        "Split this into a main deck and back-up",
+        "Make this work as a walkthrough and as a document"
+      ]
+    }
+  ]
+}

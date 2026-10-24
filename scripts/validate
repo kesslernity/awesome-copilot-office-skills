@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""Check every skill under skills/ against the rules for custom skills in Copilot in Excel and Copilot in PowerPoint (Microsoft Support pages read 2026-10-24),
+the Agent Skills specification (agentskills.io) and this repo's own rules. Also checks org-deploy/manifest.template.json, the catalog,
+the README skill table and, when present, every zip under dist/.
+
+    python3 scripts/validate              # check skills, manifest, catalog, README and any dist/ zips
+    python3 scripts/validate --no-dist    # skip dist/ (build-dist calls this before it builds)
+
+Exit 1 on any failure. Needs PyYAML (pip install pyyaml): Microsoft surfaces parse the front matter as strict YAML, so the check must too."""
+import json, pathlib, re, sys, zipfile
+try:
+    import yaml
+except ImportError:
+    sys.exit("PyYAML is required: pip install pyyaml (front matter is parsed as strict YAML, so the check must parse it the same way)")
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SKILLS = ROOT / "skills"; DIST = ROOT / "dist"; MANIFEST = ROOT / "org-deploy" / "manifest.template.json"
+CATALOG = ROOT / "scripts" / "catalog.json"; README = ROOT / "README.md"
+
+FM = re.compile(r"^---\n(.*?)\n---\n(.*)$", re.S)
+NAME = re.compile(r"[a-z0-9]+(-[a-z0-9]+)*")
+HEADINGS = ["## Purpose", "## When to use", "## Inputs", "## Procedure", "## Human approval checkpoint", "## Output",
+            "## Fallbacks and edge cases", "## Rules", "## Self-check"]
+SKILL_FILE_TYPES = {".md", ".txt", ".csv", ".json"}           # instructions and reference text only; no scripts in v1
+BANNED_IN_ZIPS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".pdf", ".zip"}   # PowerPoint ZIP upload: images, PDF and nested zips unsupported
+FORBIDDEN = [("\u2014", "em dash"), ("\u2013", "en dash"), ("http://", "URL"), ("https://", "URL"), ("Kesslernity", "brand name inside a skill"),
+             ("Cowork", "surface-specific reference"), ("/Documents/", "hard-coded OneDrive path")]
+HYPE = ["unlock", "supercharge", "game-changing", "game changing", "delve", "seamless", "revolutionise", "revolutionize"]
+USER_SUPPLIED = {"references/brand-rules.md"}                 # created by the user from the template; the skill stops if it is missing
+MAX_BODY = 20000                                              # declarative-agent limit, the strictest documented Microsoft cap
+STORE_OK = {"mgyzb", "kpfpi"}
+UTM = "utm_source=github&utm_medium=readme&utm_campaign=office-skills"
+GUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", re.I)
+
+def check_skill(d):
+    fails = []
+    f = d / "SKILL.md"
+    if not f.exists():
+        return [f"{d.name}: SKILL.md missing"]
+    s = f.read_text(encoding="utf-8")
+    m = FM.match(s)
+    if not m:
+        return [f"{d.name}: no YAML front matter block (file must start with --- and close the block with ---)"]
+    fm, body = m.group(1), m.group(2)
+    try:
+        meta = yaml.safe_load(fm)
+    except yaml.YAMLError as e:
+        return [f"{d.name}: front matter is not valid YAML ({str(e).splitlines()[0]})"]
+    if not isinstance(meta, dict) or list(meta.keys()) != ["name", "description"]:
+        fails.append(f"{d.name}: front matter keys must be exactly name, description in that order (got {list(meta.keys()) if isinstance(meta, dict) else type(meta).__name__})")
+    else:
+        n = str(meta["name"])
+        if n != d.name: fails.append(f"{d.name}: name {n!r} must equal the folder name (PowerPoint skips a folder whose name does not match)")
+        if not NAME.fullmatch(n) or len(n) > 64: fails.append(f"{d.name}: name must be 1 to 64 chars, lowercase a-z 0-9, single hyphens, no leading or trailing hyphen")
+        desc = str(meta["description"]).strip()
+        if not 40 <= len(desc) <= 1024: fails.append(f"{d.name}: description is {len(desc)} chars (want 40 to 1024, the spec cap)")
+        if not re.search(r'^description:\s*(".*"|\'.*\')\s*$', fm, re.M): fails.append(f"{d.name}: description must be a single-line quoted string (description: \"...\") so punctuation is YAML-safe")
+        if not re.search(r"^name:\s*[a-z0-9-]+\s*$", fm, re.M): fails.append(f"{d.name}: name must be a plain single-line value")
+    if len(body) >= MAX_BODY: fails.append(f"{d.name}: instructions are {len(body)} chars, must be under {MAX_BODY:,}")
+    if len(body) < 1500: fails.append(f"{d.name}: instructions only {len(body)} chars, suspiciously short")
+    pos = -1
+    for h in HEADINGS:
+        i = body.find("\n" + h + "\n")
+        if i < 0: fails.append(f"{d.name}: missing heading {h!r}")
+        elif i < pos: fails.append(f"{d.name}: heading {h!r} out of order")
+        else: pos = i
+    texts = [("SKILL.md", s)]
+    for p in sorted(d.rglob("*")):
+        if not p.is_file(): continue
+        rel = p.relative_to(d).as_posix()
+        if p.name.startswith("."): fails.append(f"{d.name}: hidden file {rel}")
+        if rel not in ("SKILL.md", "README.md") and not rel.startswith("references/"):
+            fails.append(f"{d.name}: a skill folder holds only SKILL.md, README.md (never shipped) and references/ (found {rel})")
+        if p.suffix.lower() in BANNED_IN_ZIPS: fails.append(f"{d.name}: {rel} is a PNG, PDF, image or zip; PowerPoint skill uploads do not support these")
+        elif p.suffix.lower() not in SKILL_FILE_TYPES: fails.append(f"{d.name}: file type not allowed: {rel} (v1 ships instructions and text references only, no scripts)")
+        if len(p.relative_to(d).parts) > 3: fails.append(f"{d.name}: depth over 3: {rel}")
+        if rel.startswith("references/") and p.suffix.lower() in SKILL_FILE_TYPES:
+            texts.append((rel, p.read_text(encoding="utf-8", errors="ignore")))
+        if p.name == "README.md" and re.search("[\u2013\u2014]", p.read_text(encoding="utf-8")): fails.append(f"{d.name}: dash in README.md")
+    for rel, t in texts:
+        for needle, why in FORBIDDEN:
+            if needle in t: fails.append(f"{d.name}: forbidden text in {rel} ({why}): {needle!r}")
+        low = t.lower()
+        for w in HYPE:
+            if re.search(r"\b" + re.escape(w) + r"\b", low): fails.append(f"{d.name}: hype word in {rel}: {w!r}")
+    for ref in set(re.findall(r"references/[A-Za-z0-9_.-]+\.md", body)):
+        if ref not in USER_SUPPLIED and not (d / ref).exists(): fails.append(f"{d.name}: SKILL.md references {ref} but the file is missing")
+    return fails
+
+def check_manifest_obj(m, where, skill_names, template):
+    fails = []
+    def need(path, cond, msg):
+        if not cond: fails.append(f"{where}: {path}: {msg}")
+    need("$schema", "v1.30/MicrosoftTeams.schema.json" in str(m.get("$schema", "")), "must point at the v1.30 schema")
+    need("manifestVersion", m.get("manifestVersion") == "1.30", "must be \"1.30\"")
+    need("version", re.fullmatch(r"\d+\.\d+\.\d+", str(m.get("version", ""))) is not None, "must be semantic, for example 1.0.0")
+    idv = str(m.get("id", ""))
+    need("id", (template and idv == "{{APP_ID}}") or GUID.match(idv), "must be a GUID (template: {{APP_ID}})")
+    dev = m.get("developer", {})
+    for k in ("name", "websiteUrl", "privacyUrl", "termsOfUseUrl"):
+        need(f"developer.{k}", isinstance(dev, dict) and dev.get(k), "required")
+        if not template and isinstance(dev, dict) and ("{{" in str(dev.get(k, "")) or not str(dev.get(k, "")).startswith("https://") and k != "name"):
+            fails.append(f"{where}: developer.{k}: must be filled in (https URL for the URL fields)")
+    nm, ds = m.get("name", {}), m.get("description", {})
+    need("name.short", isinstance(nm, dict) and 0 < len(str(nm.get("short", ""))) <= 30, "required, 30 chars or fewer")
+    need("name.full", isinstance(nm, dict) and 0 < len(str(nm.get("full", ""))) <= 100, "required, 100 chars or fewer")
+    need("description.short", isinstance(ds, dict) and 0 < len(str(ds.get("short", ""))) <= 80, "required, 80 chars or fewer")
+    need("description.full", isinstance(ds, dict) and 0 < len(str(ds.get("full", ""))) <= 4000, "required, 4000 chars or fewer")
+    ic = m.get("icons", {})
+    need("icons", isinstance(ic, dict) and ic.get("color") == "color.png" and ic.get("outline") == "outline.png", "must be {\"color\": \"color.png\", \"outline\": \"outline.png\"}")
+    ac = str(m.get("accentColor", ""))
+    need("accentColor", (template and ac == "{{ACCENT_COLOR}}") or re.fullmatch(r"#[0-9A-Fa-f]{6}", ac), "must be a #RRGGBB colour")
+    sk = m.get("agentSkills")
+    if not isinstance(sk, list) or not sk:
+        fails.append(f"{where}: agentSkills must be a non-empty list of {{\"folder\": \"./skills/<name>\"}} objects")
+    else:
+        seen = set()
+        for i, e in enumerate(sk):
+            if not isinstance(e, dict) or list(e.keys()) != ["folder"]:
+                fails.append(f"{where}: agentSkills[{i}] must be an object with exactly one key, folder"); continue
+            mt = re.fullmatch(r"\./skills/([a-z0-9-]+)", str(e["folder"]))
+            if not mt: fails.append(f"{where}: agentSkills[{i}].folder must look like ./skills/<name>"); continue
+            if mt.group(1) not in skill_names: fails.append(f"{where}: agentSkills[{i}] points at unknown skill {mt.group(1)}")
+            if mt.group(1) in seen: fails.append(f"{where}: agentSkills lists {mt.group(1)} twice")
+            seen.add(mt.group(1))
+    return fails
+
+def check_zip(z, skill_names):
+    fails = []; rel = z.relative_to(ROOT).as_posix()
+    with zipfile.ZipFile(z) as zf:
+        names = [n for n in zf.namelist() if not n.endswith("/")]
+        org = z.parent.name == "org"
+        for n in names:
+            suffix = pathlib.PurePosixPath(n).suffix.lower()
+            if org and n in ("color.png", "outline.png"): continue      # the admin center requires these two icons at the package root
+            if suffix in BANNED_IN_ZIPS: fails.append(f"{rel}: contains {n} (PNG, PDF, image or nested zip)")
+            if pathlib.PurePosixPath(n).name.startswith("."): fails.append(f"{rel}: hidden file {n}")
+            if n.endswith("README.md"): fails.append(f"{rel}: README.md shipped in an upload package")
+        if org:
+            for req in ("manifest.json", "color.png", "outline.png"):
+                if req not in names: fails.append(f"{rel}: missing {req} at the package root")
+            if "manifest.json" in names:
+                m = json.loads(zf.read("manifest.json"))
+                fails += check_manifest_obj(m, rel, skill_names, template=False)
+                for e in m.get("agentSkills", []):
+                    folder = str(e.get("folder", "")).lstrip("./")
+                    if f"{folder}/SKILL.md" not in names: fails.append(f"{rel}: manifest points at {folder} but {folder}/SKILL.md is not in the zip")
+        elif z.parent.name == "personal":
+            stem = z.stem
+            if not names or any(not n.startswith(stem + "/") for n in names): fails.append(f"{rel}: every entry must sit under the top-level folder {stem}/")
+            if f"{stem}/SKILL.md" not in names: fails.append(f"{rel}: {stem}/SKILL.md missing")
+        elif z.parent.name == "root":
+            if "SKILL.md" not in names: fails.append(f"{rel}: SKILL.md must be at the zip root")
+    return fails
+
+def main():
+    fails = []
+    stray = [p for p in SKILLS.rglob("SKILL.md") if p.parent.parent != SKILLS]
+    for p in stray: fails.append(f"{p.relative_to(ROOT)}: skills/ must be flat (skills/<name>/SKILL.md)")
+    dirs = sorted(p for p in SKILLS.iterdir() if p.is_dir())
+    for d in dirs: fails += check_skill(d)
+    names = [d.name for d in dirs]
+    cat = json.loads(CATALOG.read_text(encoding="utf-8"))
+    cnames = [s["name"] for s in cat["skills"]]
+    for n in set(names) ^ set(cnames): fails.append(f"catalog.json and skills/ disagree about {n}")
+    # Every skill declares the surface it was written for. A skill with no surface cannot be
+    # routed to the right install instructions, and the README table would silently mis-file it.
+    SURFACES = {"excel", "powerpoint"}
+    for s in cat["skills"]:
+        if s.get("surface") not in SURFACES:
+            fails.append(f"catalog.json: {s['name']} has surface {s.get('surface')!r}, must be one of {sorted(SURFACES)}")
+    for surf in sorted(SURFACES):
+        if not any(s.get("surface") == surf for s in cat["skills"]):
+            fails.append(f"catalog.json: no skills declared for surface {surf!r}; this repo covers both")
+    readme = README.read_text(encoding="utf-8")
+    for n in names:
+        if f"(skills/{n}/)" not in readme: fails.append(f"README.md: skill table has no row linking skills/{n}/")
+    try:
+        fails += check_manifest_obj(json.loads(MANIFEST.read_text(encoding="utf-8")), "org-deploy/manifest.template.json", set(names), template=True)
+    except (OSError, json.JSONDecodeError) as e:
+        fails.append(f"org-deploy/manifest.template.json: {e}")
+    for p in ROOT.rglob("*"):
+        if p.is_file() and ".git" not in p.parts and "dist" not in p.relative_to(ROOT).parts and p.suffix.lower() in {".md", ".json", ".yml", ".yaml", ""} and p.name != "LICENSE":
+            t = p.read_text(encoding="utf-8", errors="ignore")
+            if re.search("[\u2013\u2014]", t): fails.append(f"{p.relative_to(ROOT)}: em or en dash (house style: commas, colons or parentheses)")
+            for slug, tail in re.findall(r"store\.kesslernity\.com/l/([A-Za-z0-9-]+)(\S*)", t):
+                if slug not in STORE_OK: fails.append(f"{p.relative_to(ROOT)}: store link /l/{slug} is not on the verified list")
+                if UTM not in tail: fails.append(f"{p.relative_to(ROOT)}: store link /l/{slug} lacks {UTM}")
+    zips = []
+    if "--no-dist" not in sys.argv and DIST.exists():
+        zips = sorted(DIST.rglob("*.zip"))
+        for z in zips: fails += check_zip(z, set(names))
+    print(json.dumps({"skills": len(dirs), "zips_checked": len(zips), "failures": len(fails)}))
+    for x in fails: print("FAIL", x)
+    if fails: sys.exit(1)
+    print(f"PASS: {len(dirs)} skills, manifest template, catalog and README hold every rule" + (f"; {len(zips)} zips checked" if zips else ""))
+
+if __name__ == "__main__":
+    main()

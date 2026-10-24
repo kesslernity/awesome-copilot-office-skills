@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""Build the upload packages under dist/ after scripts/validate passes, then validate the zips.
+
+    python3 scripts/build-dist
+
+dist/personal/<skill>.zip  top-level folder <skill>/ holding SKILL.md and references/. Shape for PowerPoint "Add skill" upload
+                           (shape not specified by Microsoft: UNCONFIRMED, test it), claude.ai and the ChatGPT skills upload.
+dist/root/<skill>.zip      SKILL.md at the zip root. Shape Agent Builder takes for declarative-agent skills.
+dist/org/<skill>.zip       manifest.json (1.30, agentSkills) + color.png + outline.png + skills/<skill>/. One skill per package,
+                           matching Microsoft's single-skill example. Built only when org-deploy/org-config.json and both icons exist.
+dist/org/<surface>-skills-pack.zip and dist/org/office-skills-pack.zip  multi-skill packages (UNCONFIRMED, test before relying on it).
+
+README.md files are never shipped. Stale zips are removed."""
+import json, pathlib, subprocess, sys, uuid, zipfile
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SKILLS = ROOT / "skills"; DIST = ROOT / "dist"; ORG = ROOT / "org-deploy"
+VALIDATE = [sys.executable, str(ROOT / "scripts" / "validate")]
+
+def payload(d):
+    return [p for p in sorted(d.rglob("*")) if p.is_file() and not p.name.startswith(".")
+            and (p.name == "SKILL.md" or p.relative_to(d).as_posix().startswith("references/"))]
+
+def write(out, entries):
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        for src, arc in entries:
+            z.write(src, arc)
+
+def manifest(template, cfg, skills, app_key, short, full, dshort, dfull):
+    t = template.replace("{{APP_ID}}", str(uuid.uuid5(uuid.NAMESPACE_URL, cfg["developer"]["websiteUrl"].rstrip("/") + "/ppt-skills/" + app_key)))
+    t = t.replace("{{ACCENT_COLOR}}", cfg.get("accentColor", "#2E86DE"))
+    m = json.loads(t)
+    m["version"] = cfg.get("version", "1.0.0")
+    m["developer"] = cfg["developer"]
+    m["name"] = {"short": short[:30], "full": full[:100]}
+    m["description"] = {"short": dshort[:80], "full": dfull[:4000]}
+    m["agentSkills"] = [{"folder": f"./skills/{s}"} for s in skills]
+    return json.dumps(m, indent=2) + "\n"
+
+def main():
+    r = subprocess.run(VALIDATE + ["--no-dist"])
+    if r.returncode: sys.exit("validate failed: fix the skills before building")
+    cat = {s["name"]: s for s in json.loads((ROOT / "scripts" / "catalog.json").read_text())["skills"]}
+    dirs = sorted(p for p in SKILLS.iterdir() if p.is_dir())
+    expected = set()
+    for d in dirs:
+        files = payload(d)
+        p = DIST / "personal" / f"{d.name}.zip"; write(p, [(f, f"{d.name}/{f.relative_to(d).as_posix()}") for f in files]); expected.add(p)
+        q = DIST / "root" / f"{d.name}.zip"; write(q, [(f, f.relative_to(d).as_posix()) for f in files]); expected.add(q)
+    cfg_path, icons = ORG / "org-config.json", [ORG / "icons" / "color.png", ORG / "icons" / "outline.png"]
+    if cfg_path.exists() and all(i.exists() for i in icons):
+        cfg = json.loads(cfg_path.read_text()); template = (ORG / "manifest.template.json").read_text()
+        def org_zip(out, names, key, short, full, dshort, dfull):
+            entries = [(icons[0], "color.png"), (icons[1], "outline.png")]
+            for n in names:
+                d = SKILLS / n
+                entries += [(f, f"skills/{n}/{f.relative_to(d).as_posix()}") for f in payload(d)]
+            out.parent.mkdir(parents=True, exist_ok=True)
+            with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+                z.writestr("manifest.json", manifest(template, cfg, names, key, short, full, dshort, dfull))
+                for src, arc in entries: z.write(src, arc)
+            expected.add(out)
+        APP = {"excel": "Excel", "powerpoint": "PowerPoint"}
+        for d in dirs:
+            s = cat[d.name]
+            app = APP[s["surface"]]
+            org_zip(DIST / "org" / f"{d.name}.zip", [d.name], d.name, s["short"], f"{app} skill: {s['title']}", s["summary"], s["summary"])
+        # Three packs, so an admin can deploy one app's set without the other. Per-surface packs
+        # first, then everything, because most tenants roll out one app at a time.
+        for surf, app in sorted(APP.items()):
+            names = [d.name for d in dirs if cat[d.name]["surface"] == surf]
+            if not names: continue
+            org_zip(DIST / "org" / f"{surf}-skills-pack.zip", names, f"{surf}-pack", f"{app} Skills Pack",
+                    f"{app} skills pack (awesome-copilot-office-skills)", f"Custom skills for Copilot in {app}.",
+                    f"Custom skills for Copilot in {app}: " + ", ".join(names) + ".")
+        org_zip(DIST / "org" / "office-skills-pack.zip", [d.name for d in dirs], "pack", "Office Skills Pack",
+                "Office skills pack (awesome-copilot-office-skills)", "Custom skills for Copilot in Excel and PowerPoint.",
+                "Custom skills for Copilot in Excel and PowerPoint: " + ", ".join(d.name for d in dirs) + ".")
+    else:
+        print("SKIP dist/org/: copy org-deploy/org-config.example.json to org-deploy/org-config.json and add icons/color.png and icons/outline.png (see org-deploy/README.md)")
+    for z in DIST.rglob("*.zip"):
+        if z not in expected: z.unlink(); print("removed stale zip", z.relative_to(ROOT))
+    print(f"built {len(expected)} zips")
+    sys.exit(subprocess.run(VALIDATE).returncode)
+
+if __name__ == "__main__":
+    main()

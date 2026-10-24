@@ -1,0 +1,5 @@
+org-deploy/org-config.json
+org-deploy/icons/*.png
+dist/org/
+__pycache__/
+.DS_Store
