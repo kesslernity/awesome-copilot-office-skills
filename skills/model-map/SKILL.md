@@ -1,6 +1,6 @@
 ---
 name: model-map
-description: "Traces the calculation chain behind a chosen output cell in the open workbook, back through every intermediate step to the inputs it ultimately depends on, and reports the path, the sheets crossed, and anything that breaks the chain such as hardcoded overrides or external references. Changes nothing. Use when the user asks how a number is calculated, what drives it, or what would change if an input moved."
+description: "Traces the calculation chain behind a chosen output cell in the open workbook, back through every intermediate step to the inputs it ultimately depends on, and reports the path, the sheets crossed, and anything that breaks the chain such as hardcoded overrides or external references. Changes nothing. Use when the user asks how a number is calculated, what drives it, or what would change if an input moved. Not for reviewing every formula in the workbook; use formula-risk-review for that."
 ---
 
 # Model map

@@ -18,7 +18,7 @@ Give the deck owner an auditable answer to "is this on brand?". The rules live i
 ## Inputs
 
 1. The open presentation (required).
-2. Brand rules: read references/brand-rules.md from this skill folder. If it is missing or still contains the bracketed placeholders from references/brand-rules-template.md, stop and ask the user to fill in the template or paste their rules into the conversation.
+2. Brand rules, from either source, whichever is available: rules the user pastes into the conversation, or references/brand-rules.md in this skill folder. Treat a pasted set as equal to the file. If neither is present, or the file still contains the bracketed placeholders from references/brand-rules-template.md, stop and ask the user to paste their rules.
 3. Scope (optional): all slides (default) or a range.
 
 ## Procedure

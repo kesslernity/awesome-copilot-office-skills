@@ -1,6 +1,6 @@
 ---
 name: appendix-split
-description: "Separates the deck that gets presented from the detail that answers questions, by proposing which slides move to an appendix, leaving a pointer on the slide that needed them, and building a navigable appendix index. Moves nothing without approval. Use when the user says a deck is too dense, carries too much back-up detail, or needs a shorter main story."
+description: "Separates the deck that gets presented from the detail that answers questions, by proposing which slides move to an appendix, leaving a pointer on the slide that needed them, and building a navigable appendix index. Moves nothing without approval. Use when the user says a deck is too dense, carries too much back-up detail, or needs a shorter main story. Not for deciding what to cut entirely; use deck-trim-proposal for that."
 ---
 
 # Appendix split

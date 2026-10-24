@@ -6,9 +6,11 @@ labels: skill-request
 
 ## The repeated task
 
-What do you do in Excel or PowerPoint again and again? Describe the finish line: what the deck looks like when the task is done.
+What do you do in Excel or PowerPoint again and again? Describe the finish line: what the deck or workbook looks like when the task is done.
 
 ## Built-ins you tried first
+
+Excel ships `@clean-data`, `@chart-design`, `@theme-design`, `@brandkit`, `@skill-builder` and finance skills such as `check-model`. PowerPoint ships Review this presentation, Prepare for Questions, and Agent mode rewriting, translation and speaker notes.
 
 What happened when you asked Copilot in the app directly, or used Review this presentation, Visualize this slide, Prepare for Questions or Create interactive slide? Where did it fall short?
 

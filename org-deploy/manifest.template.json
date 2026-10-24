@@ -23,13 +23,8 @@
   },
   "accentColor": "{{ACCENT_COLOR}}",
   "agentSkills": [
-    { "folder": "./skills/outline-first-deck" },
-    { "folder": "./skills/executive-summary-slide" },
-    { "folder": "./skills/action-title-rewrite" },
-    { "folder": "./skills/numbers-and-claims-check" },
-    { "folder": "./skills/brand-rules-check" },
-    { "folder": "./skills/decision-slide" },
-    { "folder": "./skills/accessibility-pass" },
-    { "folder": "./skills/steering-committee-status-deck" }
+    {
+      "folder": "./skills/executive-summary-slide"
+    }
   ]
 }

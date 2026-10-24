@@ -20,9 +20,9 @@ Other tools: see [runtimes/](../../runtimes/).
 - "I inherited this file, map it for me"
 - "Are there hidden sheets or external links in here?"
 
-## Complements, does not duplicate
+## Complements, and where it overlaps
 
-Complements the built-in analysis skills: describes the container rather than the calculations.
+None directly: describes the container rather than the calculations.
 
 ## Status
 

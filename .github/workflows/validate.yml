@@ -1,0 +1,29 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Validate skills, catalog, README, manifest and zips
+        run: python3 scripts/validate
+      - name: Rebuild and prove dist/ is current
+        # build-dist is reproducible: fixed timestamps, fixed permissions, sorted entries.
+        # So a rebuild that changes a byte means a committed zip is stale, not that the
+        # clock moved. Without reproducible zips this check would fail on every run.
+        run: |
+          python3 scripts/build-dist
+          git diff --exit-code dist/ || {
+            echo "::error::dist/ is out of date. Run python3 scripts/build-dist and commit the result."
+            exit 1
+          }

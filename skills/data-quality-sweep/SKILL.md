@@ -13,7 +13,7 @@ Report what is wrong with a table before anybody builds on it. The skill profile
 
 - The user asks to check data quality, profile a dataset or audit a table before analysis.
 - A pivot, chart or total has produced a result that looks wrong and the data is suspected.
-- Do not use to clean the data. Microsoft ships a cleaning skill for that. This one reports and quantifies, and it stops there.
+- Do not use to clean the data. If the host offers a data-cleaning skill or tool, use that for fixes. This one reports and quantifies, and it stops there.
 
 ## Inputs
 

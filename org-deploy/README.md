@@ -33,7 +33,9 @@ The part of `manifest.json` that makes it a skill package:
 2. Add `icons/color.png` and `icons/outline.png` (see [icons/ICONS.md](icons/ICONS.md)). Also ignored by git.
 3. Run `python3 scripts/build-dist` from the repository root.
 
-You get one package per skill in `dist/org/<skill>.zip`, matching Microsoft's single-skill example, plus `dist/org/office-skills-pack.zip` with all eight. Each package gets a stable GUID derived from your website URL and the skill name, so rebuilding does not create a new app.
+The `agentSkills` list in `manifest.template.json` holds a single placeholder entry. `scripts/build-dist` replaces it with the right skills for each package, so the template does not need editing when skills are added.
+
+You get one package per skill in `dist/org/<skill>.zip`, matching Microsoft's single-skill example, plus `dist/org/excel-skills-pack.zip` (12 skills), `dist/org/powerpoint-skills-pack.zip` (12) and `dist/org/office-skills-pack.zip` (all 24). Each package gets a stable GUID derived from your website URL and the skill name, so rebuilding does not create a new app.
 
 **Unconfirmed:** Microsoft's example lists one skill. Whether the admin center accepts several skills in one `agentSkills` array is not documented. Test the pack in a test group before relying on it; the per-skill packages are the safe path.
 
