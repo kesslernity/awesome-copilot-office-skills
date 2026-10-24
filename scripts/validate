@@ -24,7 +24,7 @@ HEADINGS = ["## Purpose", "## When to use", "## Inputs", "## Procedure", "## Hum
 SKILL_FILE_TYPES = {".md", ".txt", ".csv", ".json"}           # instructions and reference text only; no scripts in v1
 BANNED_IN_ZIPS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".pdf", ".zip"}   # PowerPoint ZIP upload: images, PDF and nested zips unsupported
 FORBIDDEN = [("\u2014", "em dash"), ("\u2013", "en dash"), ("http://", "URL"), ("https://", "URL"), ("Kesslernity", "brand name inside a skill"),
-             ("Cowork", "surface-specific reference"), ("/Documents/", "hard-coded OneDrive path")]
+             ("Cowork", "surface-specific reference"), ("Microsoft", "vendor name inside a skill, which breaks portability to other runtimes"), ("/Documents/", "hard-coded OneDrive path")]
 HYPE = ["unlock", "supercharge", "game-changing", "game changing", "delve", "seamless", "revolutionise", "revolutionize"]
 USER_SUPPLIED = {"references/brand-rules.md"}                 # created by the user from the template; the skill stops if it is missing
 MAX_BODY = 20000                                              # declarative-agent limit, the strictest documented Microsoft cap

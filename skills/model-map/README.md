@@ -20,9 +20,9 @@ Other tools: see [runtimes/](../../runtimes/).
 - "Trace this total back to its inputs"
 - "What would change if I moved this assumption?"
 
-## Complements, does not duplicate
+## Complements, and where it overlaps
 
-Complements trace precedents: walks the whole chain and names what breaks it.
+Complements check-model: traces one output cell on any workbook, reports only.
 
 ## Status
 

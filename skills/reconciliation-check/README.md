@@ -20,9 +20,9 @@ Other tools: see [runtimes/](../../runtimes/).
 - "Re-add these totals and show me what breaks"
 - "Check the summary agrees with the detail sheets"
 
-## Complements, does not duplicate
+## Complements, and where it overlaps
 
-Complements the built-in analysis skills: proves the workbook agrees with itself.
+Complements check-model: ties out any workbook, not only financial models, and never edits.
 
 ## Status
 

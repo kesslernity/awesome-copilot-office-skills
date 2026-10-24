@@ -20,9 +20,9 @@ Other tools: see [runtimes/](../../runtimes/).
 - "Bridge plan to actual for me"
 - "Explain this variance and show what is unexplained"
 
-## Complements, does not duplicate
+## Complements, and where it overlaps
 
-Complements the built-in analysis skills: refuses to force the bridge to tie.
+None directly: refuses to force the bridge to tie.
 
 ## Status
 

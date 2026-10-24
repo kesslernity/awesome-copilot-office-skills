@@ -12,6 +12,13 @@ See the Output section of [SKILL.md](SKILL.md). Every output is a draft: the ski
 2. In PowerPoint, open Copilot, select **+**, then **Choose skills**, then **Manage skills** (labelled **Manage plugins & skills** in newer builds), then **Add skill**, and upload the zip. Or place the `brand-rules-check` folder in the Skills folder that **Custom skills > Open skills folder** opens in OneDrive, then select **Refresh**.
 3. Type `@brand-rules-check` in the Copilot prompt, followed by your request.
 
+### Your brand rules: two routes
+
+This skill needs your written rules. The zip ships `references/brand-rules-template.md`, never a filled-in `brand-rules.md`, because the rules are yours.
+
+- **Fastest, and works everywhere.** Run `@brand-rules-check` and paste your rules into the chat when it asks. No file needed.
+- **Persistent.** Copy `references/brand-rules-template.md` to `references/brand-rules.md` inside the skill folder in your OneDrive Skills folder, fill it in, then select **Refresh**. Note that whether PowerPoint reads files in `references/` is **Unconfirmed**, so test this route before relying on it.
+
 Other tools: see [runtimes/](../../runtimes/).
 
 ## Example triggers

@@ -22,7 +22,13 @@ Toggle skills on and off in **Manage plugins & skills**. A skill that is switche
 
 ## Do not collide with Microsoft's own skills
 
-Excel ships managed skills that are enabled by default: `@brandkit`, `@chart-design`, `@clean-data`, `@skill-builder` and `@theme-design`. None of the skills in this repository uses those names, and `data-quality-sweep` is deliberately scoped to reporting and quantifying rather than cleaning, so it complements `@clean-data` instead of competing with it.
+Excel ships managed skills: `@brandkit`, `@clean-data`, `@skill-builder` and `@theme-design` are enabled by default, and `@chart-design` is disabled by default. None of the skills in this repository uses those names, and `data-quality-sweep` is deliberately scoped to reporting and quantifying rather than cleaning, so it complements `@clean-data` instead of competing with it.
+
+## Built-in finance skills
+
+Excel also ships built-in finance skills, including `check-model`, which audits financial models for circular references, broken formulas, hardcoded overrides, balance sheet imbalances, cash flow mismatches and logic gaps, and others such as `3-statements`, `lbo-model`, `merger-model` and `model-update` ([Skills created by Microsoft](https://support.microsoft.com/en-us/excel/copilot/copilot-in-excel-built-in-skills), read 24 October 2026).
+
+`check-model` overlaps three skills here, and the difference is scope rather than quality. `formula-risk-review`, `model-map` and `reconciliation-check` work on any workbook rather than on financial models, report only and never edit, and each stops at a human approval checkpoint. Use `check-model` when the file is a financial model and you want it debugged. Use these when you want a reviewable report on a workbook of any kind.
 
 `@skill-builder` is the fastest way to turn one of your own recurring workflows into a skill. Use it alongside these files rather than instead of them.
 

@@ -1,6 +1,6 @@
 ---
 name: units-and-rounding-check
-description: "Checks the open workbook for unit and rounding faults: thousands mixed with millions, more than one currency added together, percentages stored inconsistently, displayed rounding that makes totals appear not to add, and hardcoded conversion factors. Changes no value. Use when the user asks to check units, scaling, currency consistency, or why a total looks one out."
+description: "Checks the open workbook for unit and rounding faults: thousands mixed with millions, more than one currency added together, percentages stored inconsistently, displayed rounding that makes totals appear not to add, and hardcoded conversion factors. Changes no value. Use when the user asks to check units, scaling, currency consistency, or why a total looks one out. Not for re-adding totals against their components; use reconciliation-check for that."
 ---
 
 # Units and rounding check

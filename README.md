@@ -5,9 +5,20 @@
 [![GitHub stars](https://img.shields.io/github/stars/kesslernity/awesome-copilot-office-skills?style=flat-square)](https://github.com/kesslernity/awesome-copilot-office-skills/stargazers)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![Skills](https://img.shields.io/badge/skills-24-blue)](skills/)
+[![validate](https://github.com/kesslernity/awesome-copilot-office-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/kesslernity/awesome-copilot-office-skills/actions/workflows/validate.yml)
 [![Format: Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-green)](https://agentskills.io/specification)
 
 This is a community library, not affiliated with or endorsed by Microsoft. Every vendor claim below names its source and the date it was read (24 October 2026). Anything not documented is marked **Unconfirmed**.
+
+---
+
+## Try one in 60 seconds
+
+**PowerPoint:** download [executive-summary-slide.zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/executive-summary-slide.zip), then Copilot pane > **+** > **Choose skills** > **Manage skills** > **Add skill** > upload. Type `@executive-summary-slide add a summary slide`.
+
+**Excel:** download [reconciliation-check.zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/reconciliation-check.zip) and **unzip it**, then Copilot pane > **Settings** > **Manage plugins & skills** > **Custom skills** > **Open skills folder** > copy the folder in > **Refresh**. Type `@reconciliation-check does this pack tie out?` Your Office display language must be English.
+
+Contents: [Install](#install) · [Excel catalog](#excel-skill-catalog-12) · [PowerPoint catalog](#powerpoint-skill-catalog-12) · [Other tools](#same-file-other-tools) · [Limits](#known-limits) · [FAQ](FAQ.md) · [Tested status](STATUS.md)
 
 ---
 
@@ -24,13 +35,14 @@ A skill is a folder containing one file, `SKILL.md`: a short header with a `name
 
 | Surface | Where skills come from | Since | Source |
 |---|---|---|---|
-| Copilot in Excel, custom skills | You, via OneDrive or `@skill-builder` | June 2026, updated October 2026 | [Use skills with Copilot in Excel](https://support.microsoft.com/en-us/excel/copilot/copilot-in-excel-skills) |
+| Copilot in Excel, custom skills | You, via OneDrive or `@skill-builder` | Announced 25 June 2026, Support page updated October 2026 | [Copilot in Excel: Built for the era of Frontier Finance](https://www.microsoft.com/en-us/copilot/blog/2026/06/25/copilot-in-excel-built-for-the-era-of-frontier-finance); [Use skills with Copilot in Excel](https://support.microsoft.com/en-us/excel/copilot/copilot-in-excel-skills) |
 | Copilot in Excel, Microsoft skills | Microsoft: `@brandkit`, `@chart-design`, `@clean-data`, `@skill-builder`, `@theme-design` | October 2026 | [Skills created by Microsoft](https://support.microsoft.com/en-us/excel/copilot/copilot-in-excel-built-in-skills) |
 | Copilot in PowerPoint, personal skills | You, by upload, paste or OneDrive folder | July to August 2026 | [Use custom skills with Copilot in PowerPoint](https://support.microsoft.com/en-us/powerpoint/copilot/copilot-in-powerpoint-skills); [MC1434580](https://mc.merill.net/message/MC1434580), [MC1441645](https://mc.merill.net/message/MC1441645) |
 | Copilot in PowerPoint, Record a Skill | You, by demonstration | October 2026 | [Record a skill](https://support.microsoft.com/en-us/powerpoint/copilot/record-skill-copilot-powerpoint); [MC1490903](https://mc.merill.net/message/MC1490903) |
-| Organization skills | Your Microsoft 365 admin | Worldwide September 2026 | [Deploy organization skills](https://support.microsoft.com/en-us/powerpoint/copilot/deploy-organization-skills-for-copilot-in-powerpoint); [MC1463509](https://mc.merill.net/message/MC1463509) |
+| Copilot in PowerPoint, organization skills | Your Microsoft 365 admin | Frontier August 2026; Windows general availability September 2026 | [Deploy organization skills](https://support.microsoft.com/en-us/powerpoint/copilot/deploy-organization-skills-for-copilot-in-powerpoint); [MC1463509](https://mc.merill.net/message/MC1463509) (Frontier), [MC1478961](https://mc.merill.net/message/MC1478961) (Windows), [MC1478960](https://mc.merill.net/message/MC1478960) (Mac) |
+| Copilot in Excel, organization skills | Your Microsoft 365 admin | **Unconfirmed** | No Microsoft page documents it as of 24 October 2026. See [runtimes/excel-organization.md](runtimes/excel-organization.md) |
 
-Both Microsoft pages say custom skills "must follow the industry standard format" and link the Agent Skills specification. That standard was donated by Anthropic to the Agentic AI Foundation under the Linux Foundation on 22 October 2026, after more than 70 agent platforms had adopted it ([Anthropic](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation), [Linux Foundation](https://www.linuxfoundation.org/press/agentic-ai-foundation-announces-four-new-projects-agent-skills-open-responses-openenv-and-opensandbox)). That is why one folder runs in Excel, in PowerPoint and in half a dozen tools that are not Microsoft's.
+Both Microsoft pages say custom skills "must follow the industry standard format" and link the Agent Skills specification. That standard was donated by Anthropic to the Agentic AI Foundation under the Linux Foundation on 22 October 2026, after what Anthropic says was adoption by more than 70 agent platforms ([Anthropic](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation), [Linux Foundation](https://www.linuxfoundation.org/press/agentic-ai-foundation-announces-four-new-projects-agent-skills-open-responses-openenv-and-opensandbox)). That is why one folder runs in Excel, in PowerPoint and in half a dozen tools that are not Microsoft's.
 
 Not the same thing: skills attached to a declarative agent in Agent Builder, and skills in Copilot Chat and Cowork. Same file format, different surfaces, different install paths. See [runtimes/](runtimes/).
 
@@ -40,7 +52,7 @@ Not the same thing: skills attached to a declarative agent in Agent Builder, and
 
 ### Excel, personal skill (no admin)
 
-1. Download a zip from `dist/personal/`, or download this repository (**Code > Download ZIP**) and extract it outside OneDrive.
+1. Download a zip from `dist/personal/` and **unzip it**, or download this repository (**Code > Download ZIP**) and extract it outside OneDrive. Excel has no Add skill upload: you copy the folder in, so the zip is only a delivery wrapper.
 2. In Excel, open Copilot, select **Settings (...) > Manage plugins & skills > Custom skills > Create OneDrive folder**, then **Open skills folder**.
 3. Copy the skill folder in with its name unchanged, then select **Refresh**.
 4. Type `@reconciliation-check` (or any skill name) followed by your request.
@@ -62,7 +74,7 @@ For a formatting routine you repeat, Copilot can draft a skill from what you do:
 
 ### Organisation-wide (admin)
 
-Your admin builds packages with `python3 scripts/build-dist` (manifest version 1.30 with an `agentSkills` array, plus two icons) and uploads them in the Microsoft 365 admin center under **Agents > All agents > Add agent**, targeting all users or chosen groups. Full guide: [org-deploy/README.md](org-deploy/README.md).
+Microsoft documents this path for PowerPoint. Whether the same package reaches Copilot in Excel is **Unconfirmed**. Your admin builds packages with `python3 scripts/build-dist` (manifest version 1.30 with an `agentSkills` array, plus two icons) and uploads them in the Microsoft 365 admin center under **Agents > All agents > Add agent**, targeting all users or chosen groups. Full guide: [org-deploy/README.md](org-deploy/README.md).
 
 ---
 
@@ -70,15 +82,15 @@ Your admin builds packages with `python3 scripts/build-dist` (manifest version 1
 
 | Skill | What it does | Complements | Download |
 |---|---|---|---|
-| [workbook-structure-audit](skills/workbook-structure-audit/) | Maps every sheet including hidden ones, named ranges, external links, filters and protection. Changes nothing | Complements the built-in analysis skills | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/workbook-structure-audit.zip) |
-| [formula-risk-review](skills/formula-risk-review/) | Finds the formula faults that return a plausible wrong number instead of an error. Edits no formula | Complements error checking | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/formula-risk-review.zip) |
+| [workbook-structure-audit](skills/workbook-structure-audit/) | Maps every sheet including hidden ones, named ranges, external links, filters and protection. Changes nothing | None directly | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/workbook-structure-audit.zip) |
+| [formula-risk-review](skills/formula-risk-review/) | Finds the formula faults that return a plausible wrong number instead of an error. Edits no formula | Complements check-model | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/formula-risk-review.zip) |
 | [lookup-integrity-check](skills/lookup-integrity-check/) | Checks every lookup for approximate match, duplicate keys, unmatched keys and type mismatches. Changes nothing | Complements clean-data | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/lookup-integrity-check.zip) |
 | [data-quality-sweep](skills/data-quality-sweep/) | Profiles a table and reports mixed types, text numbers, duplicates, category variants and blanks. Corrects nothing | Complements clean-data | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/data-quality-sweep.zip) |
-| [reconciliation-check](skills/reconciliation-check/) | Re-adds every stated total from its components and reports each line that does not tie, with both values. Never edits a number | Complements the built-in analysis skills | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/reconciliation-check.zip) |
+| [reconciliation-check](skills/reconciliation-check/) | Re-adds every stated total from its components and reports each line that does not tie, with both values. Never edits a number | Complements check-model | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/reconciliation-check.zip) |
 | [units-and-rounding-check](skills/units-and-rounding-check/) | Finds thousands mixed with millions, multiple currencies summed together and display rounding that hides a real break | Complements number formatting | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/units-and-rounding-check.zip) |
 | [assumptions-register](skills/assumptions-register/) | Lists every input with its cell, value, unit, period and stated source, including constants buried inside formulas | Complements a documentation sheet | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/assumptions-register.zip) |
-| [model-map](skills/model-map/) | Traces the calculation chain behind one output cell back to its inputs, and flags typed overrides in the middle | Complements trace precedents | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/model-map.zip) |
-| [variance-explainer](skills/variance-explainer/) | Splits a movement into the drivers the data supports and reports the remainder as unexplained. Invents no driver | Complements the built-in analysis skills | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/variance-explainer.zip) |
+| [model-map](skills/model-map/) | Traces the calculation chain behind one output cell back to its inputs, and flags typed overrides in the middle | Complements check-model | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/model-map.zip) |
+| [variance-explainer](skills/variance-explainer/) | Splits a movement into the drivers the data supports and reports the remainder as unexplained. Invents no driver | None directly | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/variance-explainer.zip) |
 | [chart-intent-check](skills/chart-intent-check/) | Checks each chart against what its title claims: truncated axes, inconsistent scales, dual axes and unexplained colour | Complements chart-design | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/chart-intent-check.zip) |
 | [scenario-skeleton](skills/scenario-skeleton/) | Builds a base, downside and upside scaffold wired to a case switch, and leaves every scenario value blank | Complements what-if analysis | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/scenario-skeleton.zip) |
 | [workbook-handover-note](skills/workbook-handover-note/) | Drafts the read me the file never had, with UNKNOWN left visible wherever the workbook does not say | Complements a documentation sheet | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/workbook-handover-note.zip) |
@@ -95,14 +107,14 @@ Your admin builds packages with `python3 scripts/build-dist` (manifest version 1
 | [decision-slide](skills/decision-slide/) | Builds a DRAFT options, criteria and recommendation slide with a named decision owner and a blank outcome | Prepare for Questions | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/decision-slide.zip) |
 | [accessibility-pass](skills/accessibility-pass/) | Finds accessibility issues, drafts alt text and fixes, and applies only what the owner approves | The application's accessibility checker | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/accessibility-pass.zip) |
 | [steering-committee-status-deck](skills/steering-committee-status-deck/) | Builds a DRAFT five to seven slide status pack with proposed RAG statuses the user confirms | None directly | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/steering-committee-status-deck.zip) |
-| [speaker-notes-builder](skills/speaker-notes-builder/) | Drafts a talk track per slide, marks where a note would need a fact the deck lacks, and flags notes that contradict their slide | Complements Prepare for Questions | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/speaker-notes-builder.zip) |
+| [speaker-notes-builder](skills/speaker-notes-builder/) | Drafts a talk track per slide, marks where a note would need a fact the deck lacks, and flags notes that contradict their slide | Complements Agent mode speaker notes | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/speaker-notes-builder.zip) |
 | [deck-trim-proposal](skills/deck-trim-proposal/) | Proposes what to cut, merge or move so a deck fits its slot, naming what is lost in each case. Deletes nothing | Complements Review this presentation | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/deck-trim-proposal.zip) |
 | [deck-consistency-sweep](skills/deck-consistency-sweep/) | Finds terms used two ways, unexpanded acronyms, mixed date and number formats and renamed products across the whole deck | Complements Rewrite | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/deck-consistency-sweep.zip) |
 | [appendix-split](skills/appendix-split/) | Separates the presented argument from its supporting detail, leaving a pointer on every slide that lost support | Complements deck-trim-proposal | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/appendix-split.zip) |
 
-None of these duplicates a built-in. Rewrite, translate and speaker notes already run through Copilot chat in PowerPoint ([MC1243550](https://mc.merill.net/message/MC1243550), March 2026), and Excel ships its own cleaning, charting and theming skills, so nothing here competes with `@clean-data`, `@chart-design` or `@theme-design`. `data-quality-sweep` reports and quantifies rather than cleaning, which is the difference.
+These skills sit next to the built-ins rather than replacing them, and two of them overlap a built-in on purpose. PowerPoint's Agent mode already rewrites, translates and adds speaker notes ([MC1243550](https://mc.merill.net/message/MC1243550), March 2026); `speaker-notes-builder` adds what that does not, namely gap markers where a note would need a fact the deck lacks, a contradiction check against existing notes, and timing against a slot. Excel ships Microsoft-managed skills (`@brandkit`, `@clean-data`, `@skill-builder`, `@theme-design`, and `@chart-design` which is off by default) and a set of built-in finance skills including `check-model`, which audits financial models for circular references, broken formulas, hardcoded overrides and imbalances ([Skills created by Microsoft](https://support.microsoft.com/en-us/excel/copilot/copilot-in-excel-built-in-skills), read 24 October 2026). `formula-risk-review`, `model-map` and `reconciliation-check` cover the same ground on any workbook rather than on financial models, report only and never edit, and each stops at a human approval checkpoint. `data-quality-sweep` reports and quantifies; `@clean-data` proposes corrections.
 
-**Status, 24 October 2026:** all 24 are format-validated by `scripts/validate`. Live tenant tests are pending; each skill's README carries its own tested-with line.
+**Status, 24 October 2026:** all 24 are format-validated by `scripts/validate`. Live tenant tests are pending. [STATUS.md](STATUS.md) tracks what has actually been run, by surface, and lists the twelve open questions worth testing.
 
 ---
 
@@ -130,6 +142,10 @@ Each folder is kept to `name` and `description` in the header, instructions unde
 - **Unconfirmed: Copilot Credits.** Neither the Excel nor the PowerPoint skills page mentions Copilot Credits. Cowork is billed in credits; that is a different surface.
 - Organization skills need a Microsoft 365 admin who can publish in the admin center.
 
+## Skill not showing up?
+
+In order of how often it is the cause: your Office display language is not English (Excel only); the folder name does not match the `name` inside `SKILL.md`; you did not select **Refresh** after editing in OneDrive; or the zip shape is wrong, which is why both shapes ship. Longer answers in [FAQ.md](FAQ.md).
+
 ## Known limits
 
 - Folder name must equal `name`, or the skill is skipped. This is documented for both apps.
@@ -143,7 +159,7 @@ Each folder is kept to `name` and `description` in the header, instructions unde
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). In short: one folder per skill directly under `skills/`, a `surface` entry in `scripts/catalog.json`, a header with exactly `name` and `description` (quoted), the nine required sections including a human approval checkpoint, no scripts or images, British spelling, no em dashes, and `python3 scripts/validate` must pass. Tenant reports, including things that worked, are the most useful contribution: use the issue template.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), and start from [templates/SKILL.template.md](templates/SKILL.template.md) and [templates/README.template.md](templates/README.template.md). In short: one folder per skill directly under `skills/`, a `surface` entry in `scripts/catalog.json`, a header with exactly `name` and `description` (quoted), the nine required sections including a human approval checkpoint, no scripts or images, British spelling, no em dashes, and `python3 scripts/validate` must pass. Tenant reports, including things that worked, are the most useful contribution: use the issue template.
 
 ## Sibling repositories
 

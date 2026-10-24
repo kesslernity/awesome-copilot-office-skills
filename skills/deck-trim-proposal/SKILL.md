@@ -1,6 +1,6 @@
 ---
 name: deck-trim-proposal
-description: "Proposes which slides to cut, merge or move to an appendix so a deck fits its slot and its argument, using repetition, slides carrying no message, and slides that do not support the stated conclusion as the criteria. Deletes nothing. Use when the user says a deck is too long, needs to fit a time slot, or asks what can be cut."
+description: "Proposes which slides to cut, merge or move to an appendix so a deck fits its slot and its argument, using repetition, slides carrying no message, and slides that do not support the stated conclusion as the criteria. Deletes nothing. Use when the user says a deck is too long, needs to fit a time slot, or asks what can be cut. Not for relocating detail to an appendix; use appendix-split for that."
 ---
 
 # Deck trim proposal

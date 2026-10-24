@@ -20,9 +20,9 @@ Other tools: see [runtimes/](../../runtimes/).
 - "Are there any hardcoded numbers inside these formulas?"
 - "Check the sum ranges cover the whole block"
 
-## Complements, does not duplicate
+## Complements, and where it overlaps
 
-Complements error checking: looks for faults that never raise an error.
+Complements check-model: works on any workbook, reports only, never edits.
 
 ## Status
 

@@ -20,9 +20,9 @@ Other tools: see [runtimes/](../../runtimes/).
 - "Give me a talk track for a 20 minute slot"
 - "Do my existing notes contradict the slides?"
 
-## Complements, does not duplicate
+## Complements, and where it overlaps
 
-Complements Prepare for Questions: writes the notes layer and refuses to invent facts.
+Complements Agent mode speaker notes: adds gap markers, a contradiction check and timing.
 
 ## Status
 

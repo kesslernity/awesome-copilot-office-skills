@@ -1,6 +1,6 @@
 ---
 name: formula-risk-review
-description: "Reviews the formulas in the open workbook for the faults that silently produce wrong answers: constants typed inside expressions, ranges that stop short of their block, inconsistent formulas across a row, volatile and fragile functions, and error values hidden behind IFERROR. Changes no formula. Use when the user asks to review, audit or sanity-check the formulas or the build quality of a spreadsheet."
+description: "Reviews the formulas in the open workbook for the faults that silently produce wrong answers: constants typed inside expressions, ranges that stop short of their block, inconsistent formulas across a row, volatile and fragile functions, and error values hidden behind IFERROR. Changes no formula. Use when the user asks to review, audit or sanity-check the formulas or the build quality of a spreadsheet. Not for tracing one output cell back to its inputs; use model-map for that."
 ---
 
 # Formula risk review

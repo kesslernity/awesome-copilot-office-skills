@@ -1,6 +1,6 @@
 ---
 name: reconciliation-check
-description: "Re-adds every stated total in the open workbook against its components, checks that cross-sheet figures agree, and lists each line that does not tie with both values and their cell references. Never changes a number. Use when the user asks to tie out, reconcile, cross-check or verify that totals in a spreadsheet add up before it is sent or reported."
+description: "Re-adds every stated total in the open workbook against its components, checks that cross-sheet figures agree, and lists each line that does not tie with both values and their cell references. Never changes a number. Use when the user asks to tie out, reconcile, cross-check or verify that totals in a spreadsheet add up before it is sent or reported. Not for unit, scaling or currency mixing; use units-and-rounding-check for that."
 ---
 
 # Reconciliation check
