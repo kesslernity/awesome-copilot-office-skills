@@ -26,6 +26,13 @@ BANNED_IN_ZIPS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".pdf", ".zip"}   # P
 FORBIDDEN = [("\u2014", "em dash"), ("\u2013", "en dash"), ("http://", "URL"), ("https://", "URL"), ("Kesslernity", "brand name inside a skill"),
              ("Cowork", "surface-specific reference"), ("Microsoft", "vendor name inside a skill, which breaks portability to other runtimes"), ("/Documents/", "hard-coded OneDrive path")]
 HYPE = ["unlock", "supercharge", "game-changing", "game changing", "delve", "seamless", "revolutionise", "revolutionize"]
+
+# A file whose PURPOSE is to enumerate forbidden patterns has to contain them:
+# ai-writing-tells-check works from a list of tells, and an em dash and the word
+# "delve" are two of the tells. Exactly one path, written in full, so the
+# carve-out cannot widen by accident. Every other reference file stays checked,
+# and this file is still checked for everything else (URLs, brand name, depth).
+PATTERN_CATALOGUE = "skills/ai-writing-tells-check/references/tells.md"
 USER_SUPPLIED = {"references/brand-rules.md"}                 # created by the user from the template; the skill stops if it is missing
 MAX_BODY = 20000                                              # declarative-agent limit, the strictest documented Microsoft cap
 STORE_OK = {"mgyzb", "kpfpi"}
@@ -78,11 +85,14 @@ def check_skill(d):
             texts.append((rel, p.read_text(encoding="utf-8", errors="ignore")))
         if p.name == "README.md" and re.search("[\u2013\u2014]", p.read_text(encoding="utf-8")): fails.append(f"{d.name}: dash in README.md")
     for rel, t in texts:
+        catalogue = f"skills/{d.name}/{rel}" == PATTERN_CATALOGUE
         for needle, why in FORBIDDEN:
+            if catalogue and why in ("em dash", "en dash"): continue
             if needle in t: fails.append(f"{d.name}: forbidden text in {rel} ({why}): {needle!r}")
-        low = t.lower()
-        for w in HYPE:
-            if re.search(r"\b" + re.escape(w) + r"\b", low): fails.append(f"{d.name}: hype word in {rel}: {w!r}")
+        if not catalogue:
+            low = t.lower()
+            for w in HYPE:
+                if re.search(r"\b" + re.escape(w) + r"\b", low): fails.append(f"{d.name}: hype word in {rel}: {w!r}")
     for ref in set(re.findall(r"references/[A-Za-z0-9_.-]+\.md", body)):
         if ref not in USER_SUPPLIED and not (d / ref).exists(): fails.append(f"{d.name}: SKILL.md references {ref} but the file is missing")
     return fails
@@ -182,7 +192,8 @@ def main():
     for p in ROOT.rglob("*"):
         if p.is_file() and ".git" not in p.parts and "dist" not in p.relative_to(ROOT).parts and p.suffix.lower() in {".md", ".json", ".yml", ".yaml", ""} and p.name != "LICENSE":
             t = p.read_text(encoding="utf-8", errors="ignore")
-            if re.search("[\u2013\u2014]", t): fails.append(f"{p.relative_to(ROOT)}: em or en dash (house style: commas, colons or parentheses)")
+            if str(p.relative_to(ROOT)) != PATTERN_CATALOGUE and re.search("[\u2013\u2014]", t):
+                fails.append(f"{p.relative_to(ROOT)}: em or en dash (house style: commas, colons or parentheses)")
             for slug, tail in re.findall(r"store\.kesslernity\.com/l/([A-Za-z0-9-]+)(\S*)", t):
                 if slug not in STORE_OK: fails.append(f"{p.relative_to(ROOT)}: store link /l/{slug} is not on the verified list")
                 if UTM not in tail: fails.append(f"{p.relative_to(ROOT)}: store link /l/{slug} lacks {UTM}")

@@ -1,10 +1,10 @@
 # Awesome Copilot Office Skills
 
-> **24 custom skills for Copilot in Excel and Copilot in PowerPoint, in the open Agent Skills format.** Upload a zip, drop a folder in OneDrive, or have IT deploy them to the organisation. The same `SKILL.md` files run in Claude, ChatGPT and Codex, GitHub Copilot and VS Code, Gemini CLI and Mistral Vibe. Every skill drafts and then stops for your approval.
+> **Draw, tidy and check decks and workbooks inside Copilot in PowerPoint and Excel.** 27 skills: build diagrams from your own content as editable shapes, strip the AI tone out of slide text, check a deck makes one argument, and audit a workbook before it goes out. Every one drafts and stops for your approval. Upload a zip, drop a folder in OneDrive, or have IT deploy them. The same `SKILL.md` files also run in Claude, ChatGPT and Codex, GitHub Copilot and VS Code, Gemini CLI and Mistral Vibe.
 
 [![GitHub stars](https://img.shields.io/github/stars/kesslernity/awesome-copilot-office-skills?style=flat-square)](https://github.com/kesslernity/awesome-copilot-office-skills/stargazers)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
-[![Skills](https://img.shields.io/badge/skills-24-blue)](skills/)
+[![Skills](https://img.shields.io/badge/skills-27-blue)](skills/)
 [![validate](https://github.com/kesslernity/awesome-copilot-office-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/kesslernity/awesome-copilot-office-skills/actions/workflows/validate.yml)
 [![Format: Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-green)](https://agentskills.io/specification)
 
@@ -18,7 +18,28 @@ This is a community library, not affiliated with or endorsed by Microsoft. Every
 
 **Excel:** download [reconciliation-check.zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/reconciliation-check.zip) and **unzip it**, then Copilot pane > **Settings** > **Manage plugins & skills** > **Custom skills** > **Open skills folder** > copy the folder in > **Refresh**. Type `@reconciliation-check does this pack tie out?` Your Office display language must be English.
 
-Contents: [Install](#install) · [Excel catalog](#excel-skill-catalog-12) · [PowerPoint catalog](#powerpoint-skill-catalog-12) · [Other tools](#same-file-other-tools) · [Limits](#known-limits) · [FAQ](FAQ.md) · [Tested status](STATUS.md)
+## Pick a skill by what you are trying to do
+
+| I want to... | Skill | Type this |
+|---|---|---|
+| Make this content visual | [native-diagram-slide](skills/native-diagram-slide/) | `@native-diagram-slide` then paste your content |
+| Build a deck from scratch | [outline-first-deck](skills/outline-first-deck/) | `@outline-first-deck draft a 10-slide deck from this brief` |
+| Stop it sounding like AI | [ai-writing-tells-check](skills/ai-writing-tells-check/) | `@ai-writing-tells-check this deck sounds generic` |
+| Know whether it lands | [deck-message-review](skills/deck-message-review/) | `@deck-message-review does this deck land?` |
+| Give leadership one slide | [executive-summary-slide](skills/executive-summary-slide/) | `@executive-summary-slide add a summary for the board` |
+| Make the titles say something | [action-title-rewrite](skills/action-title-rewrite/) | `@action-title-rewrite rewrite these titles as conclusions` |
+| Check the numbers are sourced | [numbers-and-claims-check](skills/numbers-and-claims-check/) | `@numbers-and-claims-check flag anything unsourced` |
+| Cut it to fit the slot | [deck-trim-proposal](skills/deck-trim-proposal/) | `@deck-trim-proposal get this to 15 minutes` |
+| Match the brand | [brand-rules-check](skills/brand-rules-check/) | `@brand-rules-check against our rules file` |
+| Make it accessible | [accessibility-pass](skills/accessibility-pass/) | `@accessibility-pass check and draft alt text` |
+| Understand a workbook I inherited | [workbook-structure-audit](skills/workbook-structure-audit/) | `@workbook-structure-audit map this file` |
+| Find the formula that lies | [formula-risk-review](skills/formula-risk-review/) | `@formula-risk-review check this model` |
+| Check a pack ties out | [reconciliation-check](skills/reconciliation-check/) | `@reconciliation-check does this tie?` |
+| Explain a movement | [variance-explainer](skills/variance-explainer/) | `@variance-explainer split this variance` |
+
+Full lists with what each one does: [Excel](#excel-skill-catalog-12) and [PowerPoint](#powerpoint-skill-catalog-15). A worked session that chains several together: [the tutorial](TUTORIAL.md).
+
+Contents: [Install](#install) · [Excel catalog](#excel-skill-catalog-12) · [PowerPoint catalog](#powerpoint-skill-catalog-15) · [Other tools](#same-file-other-tools) · [Limits](#known-limits) · [FAQ](FAQ.md) · [Tested status](STATUS.md)
 
 ---
 
@@ -95,10 +116,13 @@ Microsoft documents this path for PowerPoint. Whether the same package reaches C
 | [scenario-skeleton](skills/scenario-skeleton/) | Builds a base, downside and upside scaffold wired to a case switch, and leaves every scenario value blank | Complements what-if analysis | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/scenario-skeleton.zip) |
 | [workbook-handover-note](skills/workbook-handover-note/) | Drafts the read me the file never had, with UNKNOWN left visible wherever the workbook does not say | Complements a documentation sheet | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/workbook-handover-note.zip) |
 
-## PowerPoint skill catalog (12)
+## PowerPoint skill catalog (15)
 
 | Skill | What it does | Complements | Download |
 |---|---|---|---|
+| [native-diagram-slide](skills/native-diagram-slide/) | Builds diagram slides from native shapes in your theme, choosing from ten layouts. Editable, never a picture and never SmartArt | Designer and Narrative builder | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/native-diagram-slide.zip) |
+| [ai-writing-tells-check](skills/ai-writing-tells-check/) | Finds the patterns that make slide text read as machine-written and proposes a plain rewrite for each. Changes no number | Rewrite | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/ai-writing-tells-check.zip) |
+| [deck-message-review](skills/deck-message-review/) | Reports the message the deck actually makes, whether the slides build it in order, and whether it ends with a clear ask | Review this presentation | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/deck-message-review.zip) |
 | [outline-first-deck](skills/outline-first-deck/) | Drafts a sourced slide outline, waits for approval, then builds the deck | Create a presentation from a file (Narrative builder) | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/outline-first-deck.zip) |
 | [executive-summary-slide](skills/executive-summary-slide/) | Adds one approved summary slide of three to five conclusions, each traced to its source slide | Review this presentation | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/executive-summary-slide.zip) |
 | [action-title-rewrite](skills/action-title-rewrite/) | Proposes full-sentence action titles and a storyline check, applied only after approval | Rewrite | [zip](https://github.com/kesslernity/awesome-copilot-office-skills/raw/main/dist/personal/action-title-rewrite.zip) |
@@ -135,11 +159,49 @@ Each folder is kept to `name` and `description` in the header, instructions unde
 
 ---
 
-## Licensing and cost
+## Does running a skill here spend Copilot Credits?
+
+The honest answer is that **Microsoft has not published one**, and that is worth more to you than
+a confident guess. Here is exactly what is and is not documented, read on 25 October 2026.
+
+**What Microsoft does document**
+
+- **Cowork is billed in Copilot Credits.** Credits are a real metered layer with a real meter
+  behind them: the Cost Management API governs tenant credit consumption, caps it with spending
+  policies, and reports per-user, per-service balances
+  ([Cost Management API overview](https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/api/admin-settings/cost-management/overview)).
+- **A Microsoft 365 Copilot licence covers things a Copilot Chat account pays for.** Microsoft's
+  own pricing FAQ: "Copilot Chat customers may also use custom agents built by their organization
+  **on a metered basis**", and "Licensed users can use assistive custom agents **at no additional
+  cost**" ([Microsoft Copilot plans and pricing](https://www.microsoft.com/en-us/microsoft-365-copilot/pricing)).
+- **The skills pages mention cost nowhere.** Neither
+  [Use custom skills with Copilot in PowerPoint](https://support.microsoft.com/en-us/powerpoint/copilot/copilot-in-powerpoint-skills)
+  nor the Excel equivalent says anything about credits, metering or consumption.
+
+**What is not documented, and we will not fill in**
+
+That FAQ sentence is about **agents**. A custom skill in PowerPoint is not an agent, and no
+Microsoft page states whether running one draws on credits. So the structure makes it *plausible*
+that a licensed user running a skill in PowerPoint is inside their seat rather than on the meter,
+and plausible is not documented. **We will not claim it.**
+
+If you are choosing where to run something because of cost, the thing to do is measure it, not
+read it here: the Cost Management API reports per-user, per-service balances, so a tenant admin
+can answer this for your tenant in an afternoon. If you do, please
+[tell us](https://github.com/kesslernity/awesome-copilot-office-skills/issues/new?template=tenant-behaviour-report.md)
+and we will publish it with your name on it.
+
+**Why people move a skill from Cowork to PowerPoint anyway**
+
+Credits are one reason and not the only one. A skill that runs in the app keeps the file in front
+of you, edits the open deck directly, and needs no separate surface. If you have a Cowork skill
+you want to move, [runtimes/cowork-to-powerpoint.md](runtimes/cowork-to-powerpoint.md) covers what
+changes.
+
+## Licensing
 
 - **You need Copilot in the app.** Microsoft's licence page: a *Copilot Chat (Basic)* account has no Copilot in Word, Excel, PowerPoint or OneNote; *M365 Copilot (Basic)* has standard access in the apps; *M365 Copilot (Premium)* has the add-on licence with priority access ([What Copilot license do I have](https://support.microsoft.com/en-us/microsoft-365-copilot/what-copilot-license-do-i-have), updated April 2026).
 - **Unconfirmed: whether custom skills work on M365 Copilot (Basic)**, in either app. No page states the tier for custom skills.
-- **Unconfirmed: Copilot Credits.** Neither the Excel nor the PowerPoint skills page mentions Copilot Credits. Cowork is billed in credits; that is a different surface.
 - Organization skills need a Microsoft 365 admin who can publish in the admin center.
 
 ## Skill not showing up?

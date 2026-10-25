@@ -312,6 +312,45 @@
         "Split this into a main deck and back-up",
         "Make this work as a walkthrough and as a document"
       ]
+    },
+    {
+      "name": "native-diagram-slide",
+      "title": "Native diagram slide",
+      "short": "Diagram slide builder",
+      "summary": "Builds diagram slides from native shapes in your theme, choosing from ten layouts. Editable, never a picture and never SmartArt.",
+      "complements": "Designer and Narrative builder: those lay out text and pick images; this draws structure from your content as editable shapes",
+      "triggers": [
+        "Create me a deck that uses @native-diagram-slide using this information",
+        "Turn slide 4 into a process flow with swimlanes",
+        "Draw the roadmap as a timeline and mark which dates are confirmed"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "ai-writing-tells-check",
+      "title": "AI writing tells check",
+      "short": "AI tells check",
+      "summary": "Finds the patterns that make slide text read as machine-written and proposes a plain rewrite for each. Changes no number.",
+      "complements": "Rewrite: that rewrites for tone on request; this names the specific tell on each slide and leaves every figure untouched",
+      "triggers": [
+        "This deck sounds like AI, fix the wording",
+        "Run an AI tells check before this goes to the client",
+        "Make slides 3 to 9 sound like a person wrote them"
+      ],
+      "surface": "powerpoint"
+    },
+    {
+      "name": "deck-message-review",
+      "title": "Deck message review",
+      "short": "Deck message review",
+      "summary": "Reports the message the deck actually makes, whether the slides build it in order, and whether it ends with a clear ask.",
+      "complements": "Review this presentation: that comments slide by slide; this judges the deck as one argument and names the ask, or its absence",
+      "triggers": [
+        "Does this deck land?",
+        "What is the message a reader takes from this?",
+        "Is this ready for the steering committee?"
+      ],
+      "surface": "powerpoint"
     }
   ]
 }
